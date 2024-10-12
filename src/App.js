@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import ManagerPage from './components/ManagerPage';
+import CustomerPage from './components/CustomerPage';
+import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import './App.css';
 
-const CONTRACT_ADDRESS = "0xB122EAA0509B4B2cb39574B53F3C1245A5a4D8E4"; // Replace with your deployed contract address
+const CONTRACT_ADDRESS = "0xFeD9287Fc0C1f601389a637825aEB70eF6017ccD"; // Replace with your deployed contract address
 const MANAGER_ADDRESS = "0x2FF3a151fb4F539d2BaDf69591032f69B9597b69"; // Replace with the actual manager's address
 
 const contractABI = [
@@ -45,8 +48,8 @@ function App() {
   const [rooms, setRooms] = useState([]);
   const [provider, setProvider] = useState(null);
   const [contract, setContract] = useState(null);
-  const [price, setPrice] = useState("");  // To store room price input
   const [userAddress, setUserAddress] = useState("");
+  const [price, setPrice] = useState("");  // To manage room price input
   const [isManager, setIsManager] = useState(false);  // To track if current user is a manager
 
   const loadBlockchainData = async (provider) => {
@@ -116,45 +119,14 @@ function App() {
   return (
     <div className="App">
       <h1>Decentralized Hotel Booking DApp</h1>
-
-      {/* Show the user's address */}
       <p>User Address: {userAddress}</p>
 
       {/* Conditional UI Rendering Based on User Role */}
       {isManager ? (
-        // If the user is a manager, show the hotel manager's functionalities
-        <div>
-          <h2>Add a Room</h2>
-          <input 
-            type="text" 
-            placeholder="Enter room price in ETH" 
-            value={price}
-            onChange={(e) => setPrice(e.target.value)} 
-          />
-          <button onClick={addRoom}>Add Room</button>
-        </div>
+        <ManagerPage rooms={rooms} addRoom={addRoom} setPrice={setPrice} price={price} bookRoom={bookRoom} />
       ) : (
-        // If the user is not a manager, they are a customer, so show customer functionalities
-        <div>
-          <p>Welcome, valued customer! Browse rooms below and make a booking.</p>
-        </div>
+        <CustomerPage rooms={rooms} bookRoom={bookRoom} />
       )}
-
-      {/* Display the list of rooms */}
-      <ul>
-        {rooms.map((room, index) => (
-          <li key={index}>
-            Room {room.id} - Price: {ethers.formatEther(room.price.toString())} ETH - 
-            {room.isBooked 
-              ? `Booked by: ${room.bookedBy || 'Unknown'}` 
-              : !isManager && (
-                  // Only show the book button for customers (not managers)
-                  <button onClick={() => bookRoom(room.id, ethers.formatEther(room.price))}>Book</button>
-                )
-            }
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }
