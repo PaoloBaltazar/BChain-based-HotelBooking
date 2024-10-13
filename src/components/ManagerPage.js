@@ -5,17 +5,24 @@ import './ManagerPage.css'; // Import your CSS file
 const ManagerPage = ({ rooms, addRoom, setPrice, price, bookRoom }) => {
   return (
     <div className="manager-page-container">
-      <h2>Add a Room</h2>
-      <input 
-        type="text" 
-        placeholder="Enter room price in ETH" 
-        value={price}
-        onChange={(e) => setPrice(e.target.value)} 
-      />
-      <button onClick={addRoom}>Add Room</button>
+      <div className='add-room-container'>
+        <h2>Add a Room</h2>
+        <div className="form-container">
+          <input 
+            type="text" 
+            placeholder="Enter room price in ETH" 
+            value={price}
+            className="price-input"
+            onChange={(e) => setPrice(e.target.value)} 
+          />
+          <button onClick={addRoom} className='add-room-button'>Add Room</button>
+        </div>
+        
+      </div>
+      
 
-      <div>
-        <h2>Room Status</h2>
+      <div className='room-container'>
+        <h2>Room List</h2>
         <table>
           <thead>
             <tr>

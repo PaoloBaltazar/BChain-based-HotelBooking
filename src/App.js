@@ -1,49 +1,15 @@
 import React from 'react';
 import ManagerPage from './components/ManagerPage';
 import CustomerPage from './components/CustomerPage';
-import Nav from './components/Nav'
+import Nav from './components/Nav';
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import './App.css';
 
+import contractABI from './constants/contractABI';
+
 const CONTRACT_ADDRESS = "0x6dB0FDe6757ed95a7359c53c46dC73cDB5f4Eae8"; // Replace with your deployed contract address
 const MANAGER_ADDRESS = "0xA5f8CB40B12B582844F4d7FD7B554F911bF35bDc"; // Replace with the actual manager's address
-
-const contractABI = [
-  {
-    "inputs": [],
-    "name": "getRooms",
-    "outputs": [
-      {
-        "components": [
-          { "internalType": "uint256", "name": "id", "type": "uint256" },
-          { "internalType": "uint256", "name": "price", "type": "uint256" },
-          { "internalType": "bool", "name": "isBooked", "type": "bool" },
-          { "internalType": "address", "name": "bookedBy", "type": "address" }
-        ],
-        "internalType": "struct HotelBooking.Room[]",
-        "name": "",
-        "type": "tuple[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "uint256", "name": "_price", "type": "uint256" }],
-    "name": "addRoom",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "uint256", "name": "_roomId", "type": "uint256" }],
-    "name": "bookRoom",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  }
-];
 
 function App() {
   const [rooms, setRooms] = useState([]);
@@ -119,7 +85,7 @@ function App() {
 
   return (
     <div className="App">
-      <Nav></Nav>
+      <Nav userAddress={userAddress} provider={provider} />
       {isManager ? (
         <ManagerPage rooms={rooms} addRoom={addRoom} setPrice={setPrice} price={price} bookRoom={bookRoom} />
       ) : (

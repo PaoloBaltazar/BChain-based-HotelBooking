@@ -1,7 +1,7 @@
 .nav-container {
   position: -webkit-sticky; /* For Safari */
   position: sticky;
-  height: 90px;
+  height: 70px;
   width: 100%;
   top: 0;
   z-index: 1000; /* Ensures it stays on top of other elements */
@@ -16,4 +16,51 @@
   align-items: center;
   height: 100%;
   padding: 0 1rem;
+}
+
+.nav-left-section {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-container h3 {
+  font-weight: 900;
+}
+
+.user-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  font-size: 14px;
+  padding: 10px;
+}
+
+.user-avatar {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.metamask-icon {
+  height: 35px;
+  border-radius: 50px;
+  background-color: rgb(247, 247, 247);
+  padding: 8px;
+  cursor: pointer;
+}
+
+.user-address {
+  font-weight: 600;
+}
+
+.eth-balance {
+  color: gray;
 }

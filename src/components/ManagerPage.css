@@ -3,6 +3,80 @@
   width: 100%;
   margin-left: auto;
   margin-right: auto;
+  
+}
+
+.add-room-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  gap: 20px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.form-container {
+  display: flex;
+  gap: 20px;
+}
+
+.price-input {
+  
+  padding: 5px 12px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #24292e;
+  vertical-align: middle;
+  background-color: #ffffff;
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  outline: none;
+  box-shadow: rgba(225, 228, 232, 0.2) 0px 1px 0px 0px inset;
+  :focus{
+      border-color: #0366d6;
+      outline: none;
+      box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+  }
+  
+}
+
+.add-room-button {
+  
+  display: inline-block;
+  outline: none;
+  border-width: 0px;
+  border-radius: 3px;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-weight: 500;
+  max-width: 100%;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  background: #091e420a;
+  cursor: pointer;
+  height: 32px;
+  line-height: 32px;
+  padding: 0px 12px;
+  vertical-align: middle;
+  width: auto;
+  font-size: 14px;
+  :hover {
+      background: #091e4214;
+      text-decoration: inherit;
+      transition-duration: 0s, 0.15s;
+  }
+
+}
+
+.room-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
 }
 
 table {
@@ -24,4 +98,5 @@ th {
 .room-item {
   text-align: left;
 }
+
 
