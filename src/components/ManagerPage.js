@@ -34,7 +34,7 @@ const ManagerPage = ({ rooms, addRoom, setPrice, price, bookRoom }) => {
           <tbody>
             {rooms.map((room, index) => (
               <tr key={index} className="room-item">
-                <td>Room {room.id}</td>
+                <td>Room {room.id.toString()}</td>
                 <td>{ethers.formatEther(room.price.toString())}</td>
                 <td>
                   {room.isBooked ? `Booked by: ${room.bookedBy || 'Unknown'}` : "Not Booked"}
