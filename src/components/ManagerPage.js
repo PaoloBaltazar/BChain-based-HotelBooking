@@ -1,14 +1,10 @@
-// components/ManagerPage.js
-
 import React from 'react';
 import { ethers } from 'ethers';
+import './ManagerPage.css'; // Import your CSS file
 
 const ManagerPage = ({ rooms, addRoom, setPrice, price, bookRoom }) => {
   return (
-    <div>
-      <nav>
-        
-      </nav>
+    <div className="manager-page-container">
       <h2>Add a Room</h2>
       <input 
         type="text" 
@@ -18,20 +14,29 @@ const ManagerPage = ({ rooms, addRoom, setPrice, price, bookRoom }) => {
       />
       <button onClick={addRoom}>Add Room</button>
 
-      <h2>Available Rooms</h2>
-      <ul>
-        {rooms.map((room, index) => (
-          <li key={index}>
-            Room {room.id} - Price: {ethers.formatEther(room.price.toString())} ETH - 
-            {room.isBooked 
-              ? `Booked by: ${room.bookedBy || 'Unknown'}` 
-              : (
-                  <button onClick={() => bookRoom(room.id, ethers.formatEther(room.price))}>Book</button>
-                )
-            }
-          </li>
-        ))}
-      </ul>
+      <div>
+        <h2>Room Status</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Room</th>
+              <th>Price (ETH)</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rooms.map((room, index) => (
+              <tr key={index} className="room-item">
+                <td>Room {room.id}</td>
+                <td>{ethers.formatEther(room.price.toString())}</td>
+                <td>
+                  {room.isBooked ? `Booked by: ${room.bookedBy || 'Unknown'}` : "Not Booked"}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

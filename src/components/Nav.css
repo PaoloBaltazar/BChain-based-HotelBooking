@@ -1,0 +1,19 @@
+.nav-container {
+  position: -webkit-sticky; /* For Safari */
+  position: sticky;
+  height: 90px;
+  width: 100%;
+  top: 0;
+  z-index: 1000; /* Ensures it stays on top of other elements */
+  background-color: white; /* Ensures background color remains */
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .2);
+}
+
+.navbar {
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding: 0 1rem;
+}

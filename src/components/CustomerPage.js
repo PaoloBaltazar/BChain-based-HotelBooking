@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { ethers } from 'ethers';
+import './CustomerPage'
 
 const CustomerPage = ({ rooms, bookRoom }) => {
   return (
@@ -13,9 +14,11 @@ const CustomerPage = ({ rooms, bookRoom }) => {
           <li key={index}>
             Room {room.id} - Price: {ethers.formatEther(room.price.toString())} ETH - 
             {room.isBooked 
-              ? `Booked by: ${room.bookedBy || 'Unknown'}` 
+              ? "Booked" 
               : (
-                  <button onClick={() => bookRoom(room.id, ethers.formatEther(room.price))}>Book</button>
+                  <button onClick={() => bookRoom(room.id, ethers.formatEther(room.price))}>
+                    Book
+                  </button>
                 )
             }
           </li>

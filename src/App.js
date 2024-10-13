@@ -1,12 +1,13 @@
 import React from 'react';
 import ManagerPage from './components/ManagerPage';
 import CustomerPage from './components/CustomerPage';
+import Nav from './components/Nav'
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import './App.css';
 
-const CONTRACT_ADDRESS = "0xFeD9287Fc0C1f601389a637825aEB70eF6017ccD"; // Replace with your deployed contract address
-const MANAGER_ADDRESS = "0x2FF3a151fb4F539d2BaDf69591032f69B9597b69"; // Replace with the actual manager's address
+const CONTRACT_ADDRESS = "0x6dB0FDe6757ed95a7359c53c46dC73cDB5f4Eae8"; // Replace with your deployed contract address
+const MANAGER_ADDRESS = "0xA5f8CB40B12B582844F4d7FD7B554F911bF35bDc"; // Replace with the actual manager's address
 
 const contractABI = [
   {
@@ -118,10 +119,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Decentralized Hotel Booking DApp</h1>
-      <p>User Address: {userAddress}</p>
-
-      {/* Conditional UI Rendering Based on User Role */}
+      <Nav></Nav>
       {isManager ? (
         <ManagerPage rooms={rooms} addRoom={addRoom} setPrice={setPrice} price={price} bookRoom={bookRoom} />
       ) : (
