@@ -8,7 +8,7 @@ import './App.css';
 
 import contractABI from './constants/contractABI';
 
-const CONTRACT_ADDRESS = "0x6939fAD29e679FC58cfd52030F3fd06b13d2a5C8"; // Replace with your deployed contract address
+const CONTRACT_ADDRESS = "0x177CF8D8d37492b2EF2623C13bc2CC5D0B5a3eE4"; // Replace with your deployed contract address
 const MANAGER_ADDRESS = "0xA5f8CB40B12B582844F4d7FD7B554F911bF35bDc"; // Replace with the actual manager's address
 
 function App() {
@@ -17,6 +17,8 @@ function App() {
   const [contract, setContract] = useState(null);
   const [userAddress, setUserAddress] = useState("");
   const [price, setPrice] = useState("");  // To manage room price input
+  const [roomNum, setRoomNum] = useState("");  // To manage room number input
+  const [category, setCategory] = useState("");  // To manage room category input
   const [isManager, setIsManager] = useState(false);  // To track if current user is a manager
 
   const loadBlockchainData = async (provider) => {
@@ -57,13 +59,17 @@ function App() {
   }, []);
 
   const addRoom = async () => {
-    if (!price || isNaN(price)) {
-      alert("Please enter a valid price.");
+    if (!price || isNaN(price) || !roomNum || isNaN(roomNum) || !category) {
+      alert("Please enter valid room number, price, and select a category.");
       return;
     }
 
     try {
-      const transaction = await contract.addRoom(ethers.parseEther(price));  // Adding room price in ETH
+      const transaction = await contract.addRoom(
+        ethers.parseEther(price),  // Price in ETH
+        parseInt(roomNum),         // Room number as integer
+        category                   // Selected category
+      );
       await transaction.wait();
       alert("Room added successfully!");
       window.location.reload(); // Reload the page to show updated rooms list
@@ -72,24 +78,22 @@ function App() {
     }
   };
 
-  const bookRoom = async (roomId, price) => {
-    try {
-      const transaction = await contract.bookRoom(roomId, { value: ethers.parseEther(price.toString()) });
-      await transaction.wait();
-      alert("Room booked successfully!");
-      window.location.reload();
-    } catch (error) {
-      console.error("Booking failed", error);
-    }
-  };
-
   return (
     <div className="App">
       <Nav userAddress={userAddress} provider={provider} />
       {isManager ? (
-        <ManagerPage rooms={rooms} addRoom={addRoom} setPrice={setPrice} price={price} bookRoom={bookRoom} />
+        <ManagerPage 
+          rooms={rooms} 
+          addRoom={addRoom} 
+          setPrice={setPrice} 
+          price={price} 
+          setRoomNum={setRoomNum} 
+          roomNum={roomNum} 
+          setCategory={setCategory} 
+          category={category} 
+        />
       ) : (
-        <CustomerPage rooms={rooms} bookRoom={bookRoom} />
+        <CustomerPage rooms={rooms} />
       )}
     </div>
   );
