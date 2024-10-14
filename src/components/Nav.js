@@ -25,11 +25,14 @@ const Nav = ({ userAddress, provider }) => {
       <nav className="navbar">
         <div className="nav-left-section">
           <div className='logo-container'>
-            <img src={logo}/>
             <h3>Hotel DApp</h3>
           </div>
 
-          <p>Home</p>
+          <div className="nav-links">
+            <p>Home</p>
+            <p>About</p>
+          </div>
+          
         </div>
         
 

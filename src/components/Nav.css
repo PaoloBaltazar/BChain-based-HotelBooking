@@ -10,7 +10,7 @@
 }
 
 .navbar {
-  margin: auto;
+  margin: auto 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -21,6 +21,11 @@
 .nav-left-section {
   display: flex;
   align-items: center;
+  gap: 100px;
+}
+
+.nav-links {
+  display: flex;
   gap: 30px;
 }
 
@@ -31,7 +36,8 @@
 }
 
 .logo-container h3 {
-  font-weight: 900;
+  font-family: "Nanum Myeongjo", serif;
+  font-weight: 700;
 }
 
 .user-info {

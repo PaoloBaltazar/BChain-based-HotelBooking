@@ -8,7 +8,7 @@ import './App.css';
 
 import contractABI from './constants/contractABI';
 
-const CONTRACT_ADDRESS = "0x6c095D2B2D734A72a06902e882291E80690D506a"; // Replace with your deployed contract address
+const CONTRACT_ADDRESS = "0x6939fAD29e679FC58cfd52030F3fd06b13d2a5C8"; // Replace with your deployed contract address
 const MANAGER_ADDRESS = "0xA5f8CB40B12B582844F4d7FD7B554F911bF35bDc"; // Replace with the actual manager's address
 
 function App() {
