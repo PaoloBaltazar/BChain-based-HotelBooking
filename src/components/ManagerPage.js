@@ -2,24 +2,26 @@ import React, { useState } from 'react';
 import { formatEther } from 'ethers';
 import './ManagerPage.css'; // Import your CSS file
 
-const ManagerPage = ({ rooms, addRoom, setPrice, price, setRoomNum, roomNum, setCategory, category }) => {
+const ManagerPage = ({ rooms, addRoom, setPrice, price, setRoomNum, roomNum, setCategory, category, deleteRoom }) => {
+  const [roomToDelete, setRoomToDelete] = useState(''); // State for the room number to delete
+
   return (
     <div className="manager-page-container">
       <div className='add-room-container'>
-        <h2>Add a Room</h2>
+        <h2>Add Room</h2>
         <div className="form-container">
           <input 
             type="text" 
             placeholder="Enter room number" 
             value={roomNum}
-            className="room-num-input"
+            className="input-style"
             onChange={(e) => setRoomNum(e.target.value)} 
           />
           <input 
             type="text" 
             placeholder="Enter room price in ETH" 
             value={price}
-            className="room-num-input"
+            className="input-style"
             onChange={(e) => setPrice(e.target.value)} 
           />
           <select 
@@ -36,6 +38,26 @@ const ManagerPage = ({ rooms, addRoom, setPrice, price, setRoomNum, roomNum, set
         </div>
       </div>
 
+      <div className="delete-room-container">
+        <h2>Delete Room</h2>
+        <div className="form-container">
+          <input 
+            type="text" 
+            placeholder="Enter room number to delete" 
+            value={roomToDelete}
+            onChange={(e) => setRoomToDelete(e.target.value)} 
+            className="input-style"
+          />
+          <button 
+            onClick={() => deleteRoom(roomToDelete)} 
+            className='delete-room-button'>
+            Delete Room
+          </button>
+        </div>
+          
+          
+        </div>
+
       <div className='room-container'>
         <h2>Room List</h2>
         <table>
@@ -51,11 +73,11 @@ const ManagerPage = ({ rooms, addRoom, setPrice, price, setRoomNum, roomNum, set
           <tbody>
             {rooms && rooms.length > 0 ? rooms.map((room, index) => (
               <tr key={index} className="room-item">
-                <td>Room {room?.roomNum ? room.roomNum.toString() : 'N/A'}</td> {/* Ensure roomNum is defined */}
-                <td>{room?.price ? formatEther(room.price.toString()) : 'N/A'}</td> {/* Ensure price is defined */}
+                <td>Room {room?.roomNum ? room.roomNum.toString() : 'N/A'}</td>
+                <td>{room?.price ? formatEther(room.price.toString()) : 'N/A'}</td>
                 <td>{room?.isBooked ? "Booked" : "Not Booked"}</td>
                 <td>{room?.category || 'N/A'}</td>
-                <td>{room?.isBooked ? room.bookedBy : 'N/A'}</td>
+                <td>{room?.isBooked ? room.bookedBy : 'TBD'}</td>
               </tr>
             )) : (
               <tr>
@@ -64,6 +86,8 @@ const ManagerPage = ({ rooms, addRoom, setPrice, price, setRoomNum, roomNum, set
             )}
           </tbody>
         </table>
+
+        
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ import './App.css';
 
 import contractABI from './constants/contractABI';
 
-const CONTRACT_ADDRESS = "0x177CF8D8d37492b2EF2623C13bc2CC5D0B5a3eE4"; // Replace with your deployed contract address
+const CONTRACT_ADDRESS = "0xE9c394B18bb02404afEe0D6d222D9dAe578E45Ac"; // Replace with your deployed contract address
 const MANAGER_ADDRESS = "0xA5f8CB40B12B582844F4d7FD7B554F911bF35bDc"; // Replace with the actual manager's address
 
 function App() {
@@ -16,10 +16,10 @@ function App() {
   const [provider, setProvider] = useState(null);
   const [contract, setContract] = useState(null);
   const [userAddress, setUserAddress] = useState("");
-  const [price, setPrice] = useState("");  // To manage room price input
-  const [roomNum, setRoomNum] = useState("");  // To manage room number input
-  const [category, setCategory] = useState("");  // To manage room category input
-  const [isManager, setIsManager] = useState(false);  // To track if current user is a manager
+  const [price, setPrice] = useState("");
+  const [roomNum, setRoomNum] = useState("");
+  const [category, setCategory] = useState("");
+  const [isManager, setIsManager] = useState(false);
 
   const loadBlockchainData = async (provider) => {
     try {
@@ -29,10 +29,9 @@ function App() {
       const rooms = await hotelBookingContract.getRooms();
       setRooms(rooms);
 
-      const userAddress = await signer.getAddress();  // Fetch the current user's address
+      const userAddress = await signer.getAddress();
       setUserAddress(userAddress);
 
-      // Manually check if the user is the predefined manager
       setIsManager(userAddress.toLowerCase() === MANAGER_ADDRESS.toLowerCase());
 
       setProvider(provider);
@@ -48,7 +47,6 @@ function App() {
         const provider = new ethers.BrowserProvider(window.ethereum);
         await loadBlockchainData(provider);
 
-        // Listen for account changes and reload blockchain data
         window.ethereum.on('accountsChanged', async (accounts) => {
           await loadBlockchainData(provider);
         });
@@ -78,6 +76,29 @@ function App() {
     }
   };
 
+  const deleteRoom = async (roomNum) => {
+    if (!roomNum || isNaN(roomNum)) {
+        alert("Please enter a valid room number.");
+        return;
+    }
+
+    const roomId = rooms.findIndex(room => room.roomNum.toString() === roomNum);
+    if (roomId === -1) {
+        alert("Room not found.");
+        return;
+    }
+
+    try {
+        const transaction = await contract.deleteRoom(roomId);
+        await transaction.wait();
+        alert("Room deleted successfully!");
+        window.location.reload(); // Reload the page to show updated rooms list
+    } catch (error) {
+        console.error("Room deletion failed", error);
+    }
+};
+
+
   return (
     <div className="App">
       <Nav userAddress={userAddress} provider={provider} />
@@ -91,6 +112,7 @@ function App() {
           roomNum={roomNum} 
           setCategory={setCategory} 
           category={category} 
+          deleteRoom={deleteRoom} // Pass the delete function to the ManagerPage
         />
       ) : (
         <CustomerPage rooms={rooms} />
