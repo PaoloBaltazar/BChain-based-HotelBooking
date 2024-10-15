@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 contract HotelBooking {
     address public owner;
-    address public managerWallet;  // Address to receive the booking payments
+    address public managerWallet;
     mapping(address => bool) public managers;
 
     struct Room {
@@ -16,14 +16,14 @@ contract HotelBooking {
     }
 
     Room[] public rooms;
-    uint256 public nextRoomId = 0; // Internal room ID for indexing
+    uint256 public nextRoomId = 0; 
 
     constructor(address _managerWallet) {
         owner = msg.sender;
-        managerWallet = _managerWallet;  // Setting manager's wallet during contract deployment
+        managerWallet = _managerWallet;
         managers[owner] = true;
 
-        // Initialize rooms with unique room numbers and prices
+        // Initialize rooms
         rooms.push(Room(nextRoomId++, 201, 0.01 ether, false, address(0), "Premium"));
         rooms.push(Room(nextRoomId++, 202, 0.01 ether, false, address(0), "Premium"));
         rooms.push(Room(nextRoomId++, 203, 0.02 ether, false, address(0), "Premium"));
@@ -53,52 +53,33 @@ contract HotelBooking {
         managers[_manager] = false;
     }
 
-    // Add a room (only for managers)
     function addRoom(uint _price, uint _roomNum, string memory _category) public onlyManager {
-        rooms.push(Room(nextRoomId, _roomNum, _price, false, address(0), _category));
-        nextRoomId++; // Increment the room ID for internal indexing
+        rooms.push(Room(nextRoomId++, _roomNum, _price, false, address(0), _category));
     }
 
-    // Helper function to find a room by room number
-    function findRoomByNumber(uint _roomNum) internal view returns (uint256) {
-        for (uint256 i = 0; i < rooms.length; i++) {
-            if (rooms[i].roomNum == _roomNum) {
-                return i;
-            }
-        }
-        revert("Room not found");
-    }
-
-    // Book a room and transfer the payment to the manager's wallet
-    function bookRoom(uint _roomNum) public payable {
-        uint256 roomId = findRoomByNumber(_roomNum);
-        Room storage room = rooms[roomId];
+    // Delete a room by ID (only for managers)
+    function deleteRoom(uint256 _roomId) public onlyManager {
+        require(_roomId < rooms.length, "Room does not exist");
         
+        // Remove the room by shifting the array elements
+        rooms[_roomId] = rooms[rooms.length - 1]; // Copy last element into the current index
+        rooms.pop(); // Remove the last element
+    }
+
+    function getRooms() public view returns (Room[] memory) {
+        return rooms;
+    }
+
+    function bookRoom(uint _roomId) public payable {
+        require(_roomId < rooms.length, "Room does not exist");
+        Room storage room = rooms[_roomId];
         require(msg.value == room.price, "Incorrect price");
         require(!room.isBooked, "Room already booked");
 
         room.isBooked = true;
         room.bookedBy = msg.sender;
 
-        // Transfer the booking payment to the manager's wallet
         (bool sent, ) = managerWallet.call{value: msg.value}("");
         require(sent, "Failed to send Ether to manager");
-    }
-
-    // Function to get rooms list
-    function getRooms() public view returns (Room[] memory) {
-        return rooms;
-    }
-
-    // Withdraw function for owner (if needed)
-    function withdraw() public {
-        require(msg.sender == owner, "Only owner can withdraw");
-        payable(owner).transfer(address(this).balance);
-    }
-
-    // Update manager's wallet (if needed)
-    function updateManagerWallet(address _managerWallet) public {
-        require(msg.sender == owner, "Only owner can update the manager's wallet");
-        managerWallet = _managerWallet;
     }
 }

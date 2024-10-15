@@ -1,29 +1,27 @@
+// src/components/CustomerPage.js
 import React from 'react';
-import { ethers } from 'ethers';
+import { Link } from 'react-router-dom'; // Import Link for navigation
 import './CustomerPage.css'; // Add custom CSS here for styling
 import hero from '../assets/hero-image.jpg'
 import premium from '../assets/premium.jpg'
 import prestige from '../assets/prestige.jpg'
 import presidential from '../assets/presidential.jpg'
 
-
-const CustomerPage = ({ rooms, bookRoom }) => {
+const CustomerPage = () => {
   return (
     <div className="customer-page">
       {/* Hero Section */}
       <div className="hero-section">
         <img 
           src={hero}
-          alt="Hero" 
+          alt="Hero accommodation" // Add meaningful alt text
           className="hero-image" 
         />
         <div className="hero-text">
           <h3>Welcome, Valued Customer!</h3>
-          <h1>Accomodation</h1>
-          
+          <h1>Accommodation</h1>
         </div>
       </div>
-
 
       <div className="room-categories-section">
         <div className="room-heading">
@@ -31,41 +29,23 @@ const CustomerPage = ({ rooms, bookRoom }) => {
           <p>Discover our exclusive rooms and make your booking today.</p>
         </div>
         <div className="room-category-cards">
-          <div 
-            className="room-category-card" 
-          >
-            <img 
-              src={premium} 
-              className="category-image" 
-            />
+          <Link to="/rooms/premium" className="room-category-card">
+            <img src={premium} alt="Premium Room" className="category-image" /> {/* Add alt text */}
             <h3 className="category-text">Premium Rooms</h3>
-            <p className="category-description">Experience the ultimate blend of luxury and comfort in our Premium rooms, designed to cater to your every need. Whether you're here for business or leisure, enjoy modern amenities, elegant interiors, and a peaceful ambiance that ensures a perfect and memorable stay.</p>
-            <p>Book Now</p>
-          </div>
+            <p className="category-description">Experience the ultimate blend of luxury and comfort in our Premium rooms.</p>
+          </Link>
 
-          <div 
-            className="room-category-card" 
-          >
-            <img 
-              src={prestige} 
-              className="category-image" 
-            />
+          <Link to="/rooms/prestige" className="room-category-card">
+            <img src={prestige} alt="Prestige Room" className="category-image" /> {/* Add alt text */}
             <h3 className="category-text">Prestige Rooms</h3>
-            <p className="category-description">Experience the ultimate blend of luxury and comfort in our Prestige rooms, designed to cater to your every need. Whether you're here for business or leisure, enjoy modern amenities, elegant interiors, and a peaceful ambiance that ensures a perfect and memorable stay.</p>
-            <p>Book Now</p>
-          </div>
+            <p className="category-description">Experience luxury and comfort in our Prestige rooms.</p>
+          </Link>
 
-          <div 
-            className="room-category-card" 
-          >
-            <img 
-              src={presidential} 
-              className="category-image" 
-            />
+          <Link to="/rooms/presidential" className="room-category-card">
+            <img src={presidential} alt="Presidential Room" className="category-image" /> {/* Add alt text */}
             <h3 className="category-text">Presidential Rooms</h3>
-            <p className="category-description">Experience the ultimate blend of luxury and comfort in our Presidential rooms, designed to cater to your every need. Whether you're here for business or leisure, enjoy modern amenities, elegant interiors, and a peaceful ambiance that ensures a perfect and memorable stay.</p>
-            <p>Book Now</p>
-          </div>
+            <p className="category-description">Experience the ultimate luxury in our Presidential rooms.</p>
+          </Link>
         </div>
       </div>
     </div>
