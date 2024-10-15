@@ -1,17 +1,25 @@
+// src/components/RoomDetailPage.js
+
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom'; // Import useNavigate
 import { ethers } from 'ethers';
 
-const RoomDetailPage = ({ contract, userAddress }) => {
+const RoomDetailPage = ({ contract, userAddress, isManager }) => {
   const { category } = useParams();
   const [rooms, setRooms] = React.useState([]);
+  const navigate = useNavigate(); // Initialize the navigate function
+
+  // Redirect to Manager page if the user is a manager
+  React.useEffect(() => {
+    if (isManager) {
+      navigate("/manager"); // Redirect to Manager page
+    }
+  }, [isManager, navigate]);
 
   const loadRoomsByCategory = async () => {
     if (contract) {
       const allRooms = await contract.getRooms();
-      console.log("All Rooms:", allRooms); // Debugging line
       const filteredRooms = allRooms.filter(room => room.category.toLowerCase() === category.toLowerCase());
-      console.log("Filtered Rooms:", filteredRooms); // Debugging line
       setRooms(filteredRooms);
     }
   };
